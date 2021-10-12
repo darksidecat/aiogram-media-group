@@ -50,7 +50,7 @@ class MediaGroupMiddleware(BaseMiddleware):
 
         media_group_data = self.media_groups[media_group_id]
 
-        if not media_group_data.lock:  # check if media group not sent to dispatcher
+        if not media_group_data.lock:  # check if media group was not sent to dispatcher
             media_group_data.messages.append(message)
 
         if message.message_id == media_group_data.first_message:
@@ -68,7 +68,7 @@ class MediaGroupMiddleware(BaseMiddleware):
             )
 
             # disable adding messages in media_group permission before send update to dispatcher
-            media_group_data.lock = True  #
+            media_group_data.lock = True
             response = await self.dp.propagate_event(
                 "update",
                 media_group_update,
